@@ -36,7 +36,8 @@ export class Play {
                     content: null,
                     embeds: [
                         new MessageEmbed({
-                            title: song.name,
+                            title: 'Now Playing',
+                            description: `${song.name} - Uploaded by ${song.uploader.name}`,
                             image: { url: song.thumbnail },
                             footer: {
                                 text: `Added by: ${member.user.tag}`,
