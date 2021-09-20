@@ -1,9 +1,8 @@
-import { CommandInteraction } from 'discord.js'
 import { GuardFunction } from 'discordx'
 
-import { getInteractionInfo } from '../util'
+import { getInteractionInfo, HandledInteraction } from '../util'
 
-export const inVoiceChannelGuard: GuardFunction<CommandInteraction> = async (interaction, _, next) => {
+export const inVoiceChannelGuard: GuardFunction<HandledInteraction> = async (interaction, _, next) => {
     const [, channel] = await getInteractionInfo(interaction)
     if (channel) return next()
 
@@ -13,7 +12,7 @@ export const inVoiceChannelGuard: GuardFunction<CommandInteraction> = async (int
     })
 }
 
-export const fullVoiceChannelGuard: GuardFunction<CommandInteraction> = async (interaction, _, next) => {
+export const fullVoiceChannelGuard: GuardFunction<HandledInteraction> = async (interaction, _, next) => {
     const [, channel] = await getInteractionInfo(interaction)
     if (!channel?.full || interaction.guild?.me?.permissions.has('MOVE_MEMBERS')) return next()
 
@@ -23,7 +22,7 @@ export const fullVoiceChannelGuard: GuardFunction<CommandInteraction> = async (i
     })
 }
 
-export const inAnotherChannelGuard: GuardFunction<CommandInteraction> = async (interaction, _, next) => {
+export const inAnotherChannelGuard: GuardFunction<HandledInteraction> = async (interaction, _, next) => {
     const [, channel] = await getInteractionInfo(interaction)
     if (!interaction.guild?.me?.voice.channelId || channel?.id === interaction.guild?.me?.voice.channelId) return next()
 

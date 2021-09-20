@@ -1,9 +1,9 @@
-import { ButtonInteraction, CommandInteraction } from 'discord.js'
 import { GuardFunction } from 'discordx'
 
 import { distube } from '..'
+import { HandledInteraction } from '../util'
 
-export const isPlayingGuard: GuardFunction<CommandInteraction | ButtonInteraction> = async (interaction, _, next) => {
+export const isPlayingGuard: GuardFunction<HandledInteraction> = async (interaction, _, next) => {
     if (distube.getQueue(interaction.guildId!)?.playing) {
         return next()
     }
@@ -11,7 +11,7 @@ export const isPlayingGuard: GuardFunction<CommandInteraction | ButtonInteractio
     return interaction.reply({ content: "I'm not playing anything right now.", ephemeral: true })
 }
 
-export const isPausedGuard: GuardFunction<CommandInteraction | ButtonInteraction> = async (interaction, _, next) => {
+export const isPausedGuard: GuardFunction<HandledInteraction> = async (interaction, _, next) => {
     if (distube.getQueue(interaction.guildId!)?.paused) {
         return next()
     }
@@ -19,7 +19,7 @@ export const isPausedGuard: GuardFunction<CommandInteraction | ButtonInteraction
     return interaction.reply({ content: 'Nothing is paused anything right now.', ephemeral: true })
 }
 
-export const canSkipGuard: GuardFunction<CommandInteraction | ButtonInteraction> = async (interaction, _, next) => {
+export const canSkipGuard: GuardFunction<HandledInteraction> = async (interaction, _, next) => {
     if ((distube.getQueue(interaction.guildId!)?.songs.length ?? 0) > 1) {
         return next()
     }

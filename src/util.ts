@@ -1,8 +1,18 @@
-import { GuildMember, Interaction, StageChannel, VoiceChannel } from 'discord.js'
+import {
+    ButtonInteraction,
+    CommandInteraction,
+    GuildMember,
+    Interaction,
+    StageChannel,
+    TextChannel,
+    VoiceChannel,
+} from 'discord.js'
+
+export type HandledInteraction = CommandInteraction | ButtonInteraction
 
 export const getInteractionInfo = async (
     interaction: Interaction,
-): Promise<[member: GuildMember, voiceChannel: VoiceChannel | StageChannel | null]> => {
+): Promise<[member: GuildMember, voiceChannel: VoiceChannel | StageChannel | null, textChannel: TextChannel]> => {
     const member = interaction.member as GuildMember
-    return [member, member.voice.channel]
+    return [member, member.voice.channel, interaction.channel as TextChannel]
 }

@@ -1,4 +1,4 @@
-import { ButtonInteraction, CommandInteraction, Message, MessageActionRow } from 'discord.js'
+import { CommandInteraction, Message, MessageActionRow } from 'discord.js'
 import { ButtonComponent, Discord, Guard, Slash, SlashOption } from 'discordx'
 import { Queue } from 'distube'
 
@@ -7,9 +7,9 @@ import { pauseButton, playButton, skipButton, stopButton } from '../controls/med
 import { nowPlayingEmbed } from '../embeds/nowPlaying'
 import { queueFinishedEmbed } from '../embeds/queueFinished'
 import { simpleActionEmbed } from '../embeds/simpleAction'
-import { isPausedGuard, isPlayingGuard } from '../guards/queueState'
+import { canSkipGuard, isPausedGuard, isPlayingGuard } from '../guards/queueState'
 import { voiceChannelGuards } from '../guards/voiceChannel'
-import { getInteractionInfo } from '../util'
+import { getInteractionInfo, HandledInteraction } from '../util'
 
 @Discord()
 export class Music {
@@ -22,57 +22,62 @@ export class Music {
         query: string,
         interaction: CommandInteraction,
     ) {
-        const [member, voiceChannel] = await getInteractionInfo(interaction)
-        distube.playVoiceChannel(voiceChannel!, query, { member })
-
+        const [member, voiceChannel, textChannel] = await getInteractionInfo(interaction)
         const queue = distube.getQueue(interaction.guildId!)
 
-        if (queue && (queue.previousSongs.length > 0 || queue.songs.length > 0)) {
+        interaction.deferReply()
+
+        if (queue && (queue.previousSongs.length > 0 || queue.songs.length > 0 || queue.playing || queue.paused)) {
             distube.once('addSong', (_, song) => {
-                interaction.reply({
+                const messagePromise = interaction.followUp({
                     content: null,
                     embeds: [simpleActionEmbed(`${song.name} has been added to the queue.`, song.thumbnail)],
-                    ephemeral: true,
+                    fetchReply: true,
                 })
 
                 this.nowPlayingMessage?.edit({
                     embeds: [nowPlayingEmbed(member, distube.getQueue(interaction.guildId!)!, 'playing')],
                 })
 
-                setTimeout(() => interaction.deleteReply(), 10000)
+                setTimeout(async () => ((await messagePromise) as Message).delete(), 5000)
             })
+            distube.playVoiceChannel(voiceChannel!, query, { member })
         } else {
-            interaction.deferReply()
             const updatePlayingSong = (newQueue: Queue) => {
-                distube.once('finish', (queue) => {
-                    if (queue.voiceChannel?.id === voiceChannel?.id) {
-                        distube.off('playSong', updatePlayingSong)
-                        this.nowPlayingMessage?.edit({
-                            embeds: [queueFinishedEmbed(voiceChannel!)],
-                        })
-                    }
-                })
-
-                const messageFn = this.nowPlayingMessage === null ? interaction.followUp : this.nowPlayingMessage.edit
-
-                messageFn({
+                const options = {
                     content: null,
                     embeds: [nowPlayingEmbed(member, newQueue)],
                     components: [new MessageActionRow({ components: [pauseButton, stopButton, skipButton] })],
                     fetchReply: true,
-                }).then((message) => {
-                    if (message instanceof Message) this.nowPlayingMessage = message
-                })
+                }
+
+                if (this.nowPlayingMessage === null) {
+                    interaction.followUp(options).then((message) => {
+                        if (message instanceof Message) this.nowPlayingMessage = message
+                    })
+                } else {
+                    this.nowPlayingMessage.edit(options)
+                }
             }
 
             distube.on('playSong', updatePlayingSong)
+            distube.on('disconnect', (queue) => {
+                distube.off('playSong', updatePlayingSong)
+                this.nowPlayingMessage?.delete()
+                queue.textChannel!.send({
+                    content: null,
+                    embeds: [queueFinishedEmbed(voiceChannel!)],
+                })
+            })
+
+            distube.playVoiceChannel(voiceChannel!, query, { member, textChannel })
         }
     }
 
     @Slash('pause', { description: 'Pause the current song.' })
     @ButtonComponent('pause_button')
     @Guard(isPlayingGuard)
-    async pause(interaction: CommandInteraction | ButtonInteraction) {
+    async pause(interaction: HandledInteraction) {
         const [member] = await getInteractionInfo(interaction)
         distube.pause(interaction.guildId!)
         interaction.reply({ content: 'Music paused', ephemeral: true })
@@ -86,7 +91,7 @@ export class Music {
     @Slash('resume', { description: 'Resume the current song.' })
     @ButtonComponent('play_button')
     @Guard(isPausedGuard)
-    async resume(interaction: CommandInteraction | ButtonInteraction) {
+    async resume(interaction: HandledInteraction) {
         const [member] = await getInteractionInfo(interaction)
         distube.resume(interaction.guildId!)
         interaction.reply({ content: 'Music resumed', ephemeral: true })
@@ -99,8 +104,8 @@ export class Music {
 
     @Slash('skip', { description: 'Skip the current song.' })
     @ButtonComponent('skip_button')
-    @Guard(isPlayingGuard)
-    async skip(interaction: CommandInteraction | ButtonInteraction) {
+    @Guard(isPlayingGuard, canSkipGuard)
+    async skip(interaction: HandledInteraction) {
         distube.skip(interaction.guildId!)
         interaction.reply({ content: 'Song skipped', ephemeral: true })
     }
