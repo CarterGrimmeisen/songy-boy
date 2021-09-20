@@ -1292,6 +1292,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-plugin-unused-imports@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "eslint-plugin-unused-imports@npm:1.1.4"
+  dependencies:
+    eslint-rule-composer: ^0.3.0
+  peerDependencies:
+    "@typescript-eslint/eslint-plugin": ^4.14.2
+    eslint: ^7.19.0
+  peerDependenciesMeta:
+    "@typescript-eslint/eslint-plugin":
+      optional: true
+  checksum: 9ad716323ae4128b6a44492f4f07eb7c6475836b3df6e83fde4a4269a7605d22eb598b51918966804994fc3b7ee4ebd2e7039ff3bc3470addc3d8c306639e7eb
+  languageName: node
+  linkType: hard
+
+"eslint-rule-composer@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "eslint-rule-composer@npm:0.3.0"
+  checksum: eb96fffa4eb2cc40061bf082bb4cc48df746e9c556e4b20c653e1b84b34cabd66462bafad124d44ea2b89a750a2aec26c21507bd7b8b23f355136a8901e09d00
+  languageName: node
+  linkType: hard
+
 "eslint-scope@npm:^5.1.1":
   version: 5.1.1
   resolution: "eslint-scope@npm:5.1.1"
@@ -3382,6 +3404,7 @@ __metadata:
     eslint-config-prettier: ^8.3.0
     eslint-import-resolver-node: ^0.3.6
     eslint-plugin-import: ^2.24.2
+    eslint-plugin-unused-imports: ^1.1.4
     ffmpeg-static: ^4.4.0
     libsodium-wrappers: ^0.7.9
     prettier: ^2.4.1

@@ -1,28 +1,11 @@
 import { ButtonInteraction, MessageButton } from 'discord.js'
 import { ButtonComponent, Discord } from 'discordx'
 
-import { client } from '..'
-
 @Discord()
 export class MediaControls {
-    // @ButtonComponent('play_button')
-    // async playButton(interaction: ButtonInteraction) {
-    //     interaction.reply('Playing')
-    // }
-
-    // @ButtonComponent('pause_button')
-    // async pauseButton(interaction: ButtonInteraction) {
-    //     )
-    // }
-
     @ButtonComponent('stop_button')
     async stopButton(interaction: ButtonInteraction) {
         interaction.reply('Stopping')
-    }
-
-    @ButtonComponent('skip_button')
-    async skipButton(interaction: ButtonInteraction) {
-        interaction.reply('Skipping')
     }
 }
 

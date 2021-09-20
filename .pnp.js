@@ -51,6 +51,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-config-prettier", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:8.3.0"],
             ["eslint-import-resolver-node", "npm:0.3.6"],
             ["eslint-plugin-import", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:2.24.2"],
+            ["eslint-plugin-unused-imports", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:1.1.4"],
             ["ffmpeg-static", "npm:4.4.0"],
             ["libsodium-wrappers", "npm:0.7.9"],
             ["prettier", "npm:2.4.1"],
@@ -1683,6 +1684,42 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packagePeers": [
             "@types/eslint",
             "eslint"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["eslint-plugin-unused-imports", [
+        ["npm:1.1.4", {
+          "packageLocation": "./.yarn/cache/eslint-plugin-unused-imports-npm-1.1.4-873d710ac3-9ad716323a.zip/node_modules/eslint-plugin-unused-imports/",
+          "packageDependencies": [
+            ["eslint-plugin-unused-imports", "npm:1.1.4"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:1.1.4", {
+          "packageLocation": "./.yarn/$$virtual/eslint-plugin-unused-imports-virtual-057ead128f/0/cache/eslint-plugin-unused-imports-npm-1.1.4-873d710ac3-9ad716323a.zip/node_modules/eslint-plugin-unused-imports/",
+          "packageDependencies": [
+            ["eslint-plugin-unused-imports", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:1.1.4"],
+            ["@types/eslint", null],
+            ["@types/typescript-eslint__eslint-plugin", null],
+            ["@typescript-eslint/eslint-plugin", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:4.31.1"],
+            ["eslint", "npm:7.32.0"],
+            ["eslint-rule-composer", "npm:0.3.0"]
+          ],
+          "packagePeers": [
+            "@types/eslint",
+            "@types/typescript-eslint__eslint-plugin",
+            "@typescript-eslint/eslint-plugin",
+            "eslint"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["eslint-rule-composer", [
+        ["npm:0.3.0", {
+          "packageLocation": "./.yarn/cache/eslint-rule-composer-npm-0.3.0-0188afafaa-eb96fffa4e.zip/node_modules/eslint-rule-composer/",
+          "packageDependencies": [
+            ["eslint-rule-composer", "npm:0.3.0"]
           ],
           "linkType": "HARD",
         }]
@@ -4037,6 +4074,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-config-prettier", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:8.3.0"],
             ["eslint-import-resolver-node", "npm:0.3.6"],
             ["eslint-plugin-import", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:2.24.2"],
+            ["eslint-plugin-unused-imports", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:1.1.4"],
             ["ffmpeg-static", "npm:4.4.0"],
             ["libsodium-wrappers", "npm:0.7.9"],
             ["prettier", "npm:2.4.1"],

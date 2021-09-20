@@ -1,4 +1,4 @@
-import { GuildMember, Interaction, Message, StageChannel, VoiceChannel } from 'discord.js'
+import { GuildMember, Interaction, StageChannel, VoiceChannel } from 'discord.js'
 
 export const getInteractionInfo = async (
     interaction: Interaction,
