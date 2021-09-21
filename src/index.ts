@@ -3,10 +3,12 @@ import 'reflect-metadata'
 import { Intents } from 'discord.js'
 import { Client } from 'discordx'
 import { DisTube } from 'distube'
-import dotenv from 'dotenv'
+import { config as parseConfig } from 'dotenv'
 import { exit } from 'process'
 
-export const { parsed: config, error } = dotenv.config()
+import { allFilters } from './controls/filterList'
+
+export const { parsed: config, error } = parseConfig()
 
 if (error) exit(1)
 
@@ -28,6 +30,7 @@ export const distube = new DisTube(client, {
     emptyCooldown: 1800,
     leaveOnFinish: true,
     leaveOnStop: true,
+    customFilters: allFilters,
 })
 
 client.on('ready', () => {

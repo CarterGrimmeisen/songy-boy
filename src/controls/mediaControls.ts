@@ -1,13 +1,4 @@
-import { ButtonInteraction, MessageButton } from 'discord.js'
-import { ButtonComponent, Discord } from 'discordx'
-
-@Discord()
-export class MediaControls {
-    @ButtonComponent('stop_button')
-    async stopButton(interaction: ButtonInteraction) {
-        interaction.reply('Stopping')
-    }
-}
+import { MessageButton } from 'discord.js'
 
 export const playButton = new MessageButton({
     customId: 'play_button',

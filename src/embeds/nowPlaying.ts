@@ -1,7 +1,7 @@
-import { GuildMember, MessageEmbed } from 'discord.js'
+import { MessageEmbed } from 'discord.js'
 import { Queue } from 'distube'
 
-export const nowPlayingEmbed = (member: GuildMember, queue: Queue, status: 'playing' | 'paused' = 'playing') => {
+export const nowPlayingEmbed = (queue: Queue, status: 'playing' | 'paused' = 'playing') => {
     const song = queue.songs[0]
     return new MessageEmbed({
         title: song.name,
@@ -14,9 +14,21 @@ export const nowPlayingEmbed = (member: GuildMember, queue: Queue, status: 'play
                 (queue.songs.length > 1 ? ` | ${queue.songs.length - 1} more in queue` : ''),
             iconURL: 'https://cdn.discordapp.com/attachments/889316828625641512/889316862737924116/3dgifmaker34035.gif',
         },
+        fields: [
+            {
+                name: 'Duration',
+                value: `${queue.formattedCurrentTime} / ${queue.formattedDuration}`,
+                inline: true,
+            },
+            {
+                name: 'Volume',
+                value: `${queue.volume}%`,
+                inline: true,
+            },
+        ],
         footer: {
-            text: `Requested by ${member.user.tag}`,
-            iconURL: member.user.displayAvatarURL({ dynamic: true }),
+            text: `Requested by ${song.member!.user.tag}`,
+            iconURL: song.member!.user.displayAvatarURL({ dynamic: true }),
         },
     })
 }

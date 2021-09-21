@@ -26,6 +26,7 @@
         "dotenv": "^10.0.0",
         "ffmpeg-static": "^4.4.0",
         "libsodium-wrappers": "^0.7.9",
-        "reflect-metadata": "^0.1.13"
+        "reflect-metadata": "^0.1.13",
+        "title-case": "^3.0.3"
     }
 }

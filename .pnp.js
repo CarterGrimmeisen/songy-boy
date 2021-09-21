@@ -56,6 +56,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["libsodium-wrappers", "npm:0.7.9"],
             ["prettier", "npm:2.4.1"],
             ["reflect-metadata", "npm:0.1.13"],
+            ["title-case", "npm:3.0.3"],
             ["tsc-watch", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:4.5.0"],
             ["typescript", "patch:typescript@npm%3A4.4.3#builtin<compat/typescript>::version=4.4.3&hash=8133ad"]
           ],
@@ -4079,6 +4080,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["libsodium-wrappers", "npm:0.7.9"],
             ["prettier", "npm:2.4.1"],
             ["reflect-metadata", "npm:0.1.13"],
+            ["title-case", "npm:3.0.3"],
             ["tsc-watch", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:4.5.0"],
             ["typescript", "patch:typescript@npm%3A4.4.3#builtin<compat/typescript>::version=4.4.3&hash=8133ad"]
           ],
@@ -4368,6 +4370,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/tiny-typed-emitter-npm-2.1.0-11a189c3ee-3b0c54ecef.zip/node_modules/tiny-typed-emitter/",
           "packageDependencies": [
             ["tiny-typed-emitter", "npm:2.1.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["title-case", [
+        ["npm:3.0.3", {
+          "packageLocation": "./.yarn/cache/title-case-npm-3.0.3-101a1194a3-f458399531.zip/node_modules/title-case/",
+          "packageDependencies": [
+            ["title-case", "npm:3.0.3"],
+            ["tslib", "npm:2.3.1"]
           ],
           "linkType": "HARD",
         }]

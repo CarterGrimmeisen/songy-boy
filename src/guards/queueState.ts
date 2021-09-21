@@ -1,3 +1,4 @@
+import { CommandInteraction } from 'discord.js'
 import { GuardFunction } from 'discordx'
 
 import { distube } from '..'
@@ -21,6 +22,7 @@ export const isPausedGuard: GuardFunction<HandledInteraction> = async (interacti
 
 export const canSkipGuard: GuardFunction<HandledInteraction> = async (interaction, _, next) => {
     if ((distube.getQueue(interaction.guildId!)?.songs.length ?? 0) > 1) {
+        // || distube.getQueue(interaction.guildId!)?.autoplay) {
         return next()
     }
 
@@ -28,4 +30,12 @@ export const canSkipGuard: GuardFunction<HandledInteraction> = async (interactio
         content: "There's nothing to skip to, add something to queue and try again.",
         ephemeral: true,
     })
+}
+
+export const hasFiltersGuard: GuardFunction<CommandInteraction> = async (interaction, _, next) => {
+    if (distube.getQueue(interaction.guildId!)?.filters.length) {
+        return next()
+    }
+
+    return interaction.reply({ content: 'There are no filters active.', ephemeral: true })
 }
