@@ -3,14 +3,7 @@ import { ButtonComponent, Discord, Guard, Slash, SlashOption } from 'discordx'
 import { Queue } from 'distube'
 
 import { distube, getGuildSettings, setGuildSettings } from '..'
-import {
-	autoPlayOffButton,
-	autoPlayOnButton,
-	pauseButton,
-	playButton,
-	skipButton,
-	stopButton,
-} from '../controls/mediaControls'
+import { ffButton, pauseButton, playButton, rwButton, skipButton, stopButton } from '../controls/mediaControls'
 import { nowPlayingEmbed } from '../embeds/nowPlaying'
 import { queueFinishedEmbed } from '../embeds/queueFinished'
 import { simpleActionEmbed } from '../embeds/simpleAction'
@@ -22,6 +15,7 @@ import { disappearingMessage, getInteractionInfo, HandledInteraction } from '../
 export class Music {
 	private nowPlayingMessage: Record<string, Message> = {}
 
+	@Slash('p', { description: 'Play a song either via search terms or url' })
 	@Slash('play', { description: 'Play a song either via search terms or url' })
 	@Guard(...voiceChannelGuards)
 	async play(
@@ -44,7 +38,7 @@ export class Music {
 				})
 
 				this.nowPlayingMessage[interaction.guildId!]?.edit({
-					embeds: [nowPlayingEmbed(distube.getQueue(interaction.guildId!)!, 'playing')],
+					embeds: [nowPlayingEmbed(distube.getQueue(interaction.guildId!)!)],
 				})
 
 				setTimeout(async () => ((await messagePromise) as Message).delete(), 5000)
@@ -58,10 +52,11 @@ export class Music {
 					components: [
 						new MessageActionRow({
 							components: [
+								rwButton,
 								queue.playing ? pauseButton : playButton,
-								stopButton,
+								ffButton,
 								skipButton,
-								queue.autoplay ? autoPlayOnButton : autoPlayOffButton,
+								stopButton,
 							],
 						}),
 					],
@@ -110,18 +105,14 @@ export class Music {
 	@Guard(isPlayingGuard)
 	async pause(interaction: HandledInteraction) {
 		interaction.deferReply()
-		const queue = distube.pause(interaction.guildId!)
+
+		distube.getQueue(interaction.guildId!)!.pause()
 
 		this.nowPlayingMessage[interaction.guildId!].edit({
-			embeds: [nowPlayingEmbed(distube.getQueue(interaction.guildId!)!, 'paused')],
+			embeds: [nowPlayingEmbed(distube.getQueue(interaction.guildId!)!)],
 			components: [
 				new MessageActionRow({
-					components: [
-						playButton,
-						stopButton,
-						skipButton,
-						queue.autoplay ? autoPlayOnButton : autoPlayOffButton,
-					],
+					components: [rwButton, playButton, ffButton, skipButton, stopButton],
 				}),
 			],
 		})
@@ -134,18 +125,14 @@ export class Music {
 	@Guard(isPausedGuard)
 	async resume(interaction: HandledInteraction) {
 		interaction.deferReply()
-		const queue = distube.resume(interaction.guildId!)
+
+		distube.getQueue(interaction.guildId!)!.resume()
 
 		this.nowPlayingMessage[interaction.guildId!].edit({
-			embeds: [nowPlayingEmbed(distube.getQueue(interaction.guildId!)!, 'playing')],
+			embeds: [nowPlayingEmbed(distube.getQueue(interaction.guildId!)!)],
 			components: [
 				new MessageActionRow({
-					components: [
-						pauseButton,
-						stopButton,
-						skipButton,
-						queue.autoplay ? autoPlayOnButton : autoPlayOffButton,
-					],
+					components: [rwButton, pauseButton, ffButton, skipButton, stopButton],
 				}),
 			],
 		})
@@ -162,6 +149,7 @@ export class Music {
 		disappearingMessage(interaction.followUp({ content: 'Song skipped', fetchReply: true }))
 	}
 
+	@Slash('s', { description: 'Stop the music.' })
 	@Slash('stop', { description: 'Stop the music.' })
 	@ButtonComponent('stop_button')
 	@Guard(isPlayingGuard)
@@ -171,6 +159,7 @@ export class Music {
 		disappearingMessage(interaction.followUp({ content: 'Music stopped', fetchReply: true }))
 	}
 
+	@Slash('ap', { description: 'Toggle autoplay' })
 	@Slash('autoplay', { description: 'Toggle autoplay' })
 	@ButtonComponent('autoplay_button')
 	@Guard(isPlayingGuard)
@@ -185,7 +174,7 @@ export class Music {
 		this.nowPlayingMessage[interaction.guildId!].edit({
 			components: [
 				new MessageActionRow({
-					components: [pauseButton, stopButton, skipButton, autoplay ? autoPlayOnButton : autoPlayOffButton],
+					components: [ffButton, pauseButton, stopButton, skipButton, rwButton],
 				}),
 			],
 		})
@@ -198,11 +187,37 @@ export class Music {
 		)
 	}
 
+	@Slash('sh', { description: 'Shuffle the queue' })
 	@Slash('shuffle', { description: 'Shuffle the queue' })
 	@Guard(isPlayingGuard)
 	async shuffle(interaction: CommandInteraction) {
 		interaction.deferReply()
 		distube.shuffle(interaction.guildId!)
 		disappearingMessage(interaction.followUp({ embeds: [simpleActionEmbed('Queue shuffled.')], fetchReply: true }))
+	}
+
+	@Slash('ff', { description: 'Fast forward the current song by 10 seconds' })
+	@Slash('forward', { description: 'Fast forward the current song by 10 seconds' })
+	@ButtonComponent('ff_button')
+	@Guard(isPlayingGuard)
+	async fastforward(interaction: HandledInteraction) {
+		const queue = distube.getQueue(interaction.guildId!)!
+		interaction.deferReply()
+		distube.seek(
+			interaction.guildId!,
+			queue.currentTime + 10 < queue.songs[0].duration ? queue.currentTime + 10 : queue.songs[0].duration,
+		)
+		disappearingMessage(interaction.followUp({ content: 'Fast forwarded', fetchReply: true }), 1)
+	}
+
+	@Slash('rw', { description: 'Rewind the current song by 10 seconds' })
+	@Slash('rewind', { description: 'Rewind the current song by 10 seconds' })
+	@ButtonComponent('rw_button')
+	@Guard(isPlayingGuard)
+	async rewind(interaction: HandledInteraction) {
+		const queue = distube.getQueue(interaction.guildId!)!
+		interaction.deferReply()
+		distube.seek(interaction.guildId!, queue.currentTime > 10 ? queue.currentTime - 10 : 0)
+		disappearingMessage(interaction.followUp({ content: 'Rewound', fetchReply: true }), 1)
 	}
 }

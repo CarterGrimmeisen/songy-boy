@@ -9,3 +9,4 @@
 #/.pnp.*
 build
 .env
+settings.json

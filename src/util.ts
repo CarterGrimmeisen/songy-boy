@@ -18,6 +18,6 @@ export const getInteractionInfo = async (
 	return [member, member.voice.channel, interaction.channel as TextChannel]
 }
 
-export const disappearingMessage = async <T>(messagePromise: Promise<Message | T>) => {
-	setTimeout(async () => ((await messagePromise) as Message).delete(), 5000)
+export const disappearingMessage = async <T>(messagePromise: Promise<Message | T>, time = 5000) => {
+	setTimeout(async () => ((await messagePromise) as Message).delete(), time)
 }

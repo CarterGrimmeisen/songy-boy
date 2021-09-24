@@ -2,7 +2,7 @@ import { MessageEmbed } from 'discord.js'
 import { Queue } from 'distube'
 import { titleCase } from 'title-case'
 
-export const nowPlayingEmbed = (queue: Queue, status: 'playing' | 'paused' = 'playing') => {
+export const nowPlayingEmbed = (queue: Queue) => {
 	const song = queue.songs[0]
 	return new MessageEmbed({
 		title: song.name,
@@ -11,7 +11,7 @@ export const nowPlayingEmbed = (queue: Queue, status: 'playing' | 'paused' = 'pl
 		author: {
 			name:
 				'Songy Boy - ' +
-				(status === 'playing' ? 'Now Playing' : 'Paused') +
+				(queue.playing ? 'Now Playing' : 'Paused') +
 				(queue.songs.length > 1 ? ` | ${queue.songs.length - 1} more in queue` : ''),
 			iconURL: 'https://cdn.discordapp.com/attachments/889316828625641512/889316862737924116/3dgifmaker34035.gif',
 		},
