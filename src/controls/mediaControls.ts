@@ -1,4 +1,5 @@
-import { MessageButton } from 'discord.js'
+import { MessageActionRow, MessageButton } from 'discord.js'
+import { Queue } from 'distube'
 
 export const playButton = new MessageButton({
 	customId: 'play_button',
@@ -35,3 +36,9 @@ export const rwButton = new MessageButton({
 	style: 'SECONDARY',
 	emoji: '⏪',
 })
+
+export const getMediaButtonList = (queue: Queue) => [
+	new MessageActionRow({
+		components: [queue.playing ? pauseButton : playButton, rwButton, ffButton, skipButton, stopButton],
+	}),
+]

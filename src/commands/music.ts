@@ -1,9 +1,9 @@
-import { CommandInteraction, Message, MessageActionRow } from 'discord.js'
+import { CommandInteraction, Message } from 'discord.js'
 import { ButtonComponent, Discord, Guard, Slash, SlashOption } from 'discordx'
-import { Queue } from 'distube'
+import { Queue, RepeatMode } from 'distube'
 
 import { distube, getGuildSettings, setGuildSettings } from '..'
-import { ffButton, pauseButton, playButton, rwButton, skipButton, stopButton } from '../controls/mediaControls'
+import { getMediaButtonList } from '../controls/mediaControls'
 import { nowPlayingEmbed } from '../embeds/nowPlaying'
 import { queueFinishedEmbed } from '../embeds/queueFinished'
 import { simpleActionEmbed } from '../embeds/simpleAction'
@@ -49,17 +49,7 @@ export class Music {
 				const options = {
 					content: null,
 					embeds: [nowPlayingEmbed(queue)],
-					components: [
-						new MessageActionRow({
-							components: [
-								rwButton,
-								queue.playing ? pauseButton : playButton,
-								ffButton,
-								skipButton,
-								stopButton,
-							],
-						}),
-					],
+					components: getMediaButtonList(queue),
 					fetchReply: true,
 				}
 
@@ -106,15 +96,12 @@ export class Music {
 	async pause(interaction: HandledInteraction) {
 		interaction.deferReply()
 
-		distube.getQueue(interaction.guildId!)!.pause()
+		const queue = distube.getQueue(interaction.guildId!)!
+		queue.pause()
 
 		this.nowPlayingMessage[interaction.guildId!].edit({
-			embeds: [nowPlayingEmbed(distube.getQueue(interaction.guildId!)!)],
-			components: [
-				new MessageActionRow({
-					components: [rwButton, playButton, ffButton, skipButton, stopButton],
-				}),
-			],
+			embeds: [nowPlayingEmbed(queue)],
+			components: getMediaButtonList(queue),
 		})
 
 		disappearingMessage(interaction.followUp({ content: 'Music paused', fetchReply: true }))
@@ -126,15 +113,12 @@ export class Music {
 	async resume(interaction: HandledInteraction) {
 		interaction.deferReply()
 
-		distube.getQueue(interaction.guildId!)!.resume()
+		const queue = distube.getQueue(interaction.guildId!)!
+		queue.resume()
 
 		this.nowPlayingMessage[interaction.guildId!].edit({
-			embeds: [nowPlayingEmbed(distube.getQueue(interaction.guildId!)!)],
-			components: [
-				new MessageActionRow({
-					components: [rwButton, pauseButton, ffButton, skipButton, stopButton],
-				}),
-			],
+			embeds: [nowPlayingEmbed(queue)],
+			components: getMediaButtonList(queue),
 		})
 
 		disappearingMessage(interaction.followUp({ content: 'Music resumed', fetchReply: true }))
@@ -171,14 +155,6 @@ export class Music {
 			settings.autoplay = autoplay!
 		})
 
-		this.nowPlayingMessage[interaction.guildId!].edit({
-			components: [
-				new MessageActionRow({
-					components: [ffButton, pauseButton, stopButton, skipButton, rwButton],
-				}),
-			],
-		})
-
 		disappearingMessage(
 			interaction.followUp({
 				embeds: [simpleActionEmbed(`Autoplay is now **${autoplay ? 'on' : 'off'}**`)],
@@ -198,26 +174,104 @@ export class Music {
 
 	@Slash('ff', { description: 'Fast forward the current song by 10 seconds' })
 	@Slash('forward', { description: 'Fast forward the current song by 10 seconds' })
-	@ButtonComponent('ff_button')
 	@Guard(isPlayingGuard)
-	async fastforward(interaction: HandledInteraction) {
+	async fastforward(
+		@SlashOption('duration', {
+			required: false,
+			description: 'Fast forward the current song by this amount of seconds',
+		})
+		duration: number,
+		interaction: HandledInteraction,
+	) {
 		const queue = distube.getQueue(interaction.guildId!)!
 		interaction.deferReply()
 		distube.seek(
 			interaction.guildId!,
-			queue.currentTime + 10 < queue.songs[0].duration ? queue.currentTime + 10 : queue.songs[0].duration,
+			queue.currentTime + 10 < queue.songs[0].duration
+				? queue.currentTime + (duration ?? 10)
+				: queue.songs[0].duration,
 		)
 		disappearingMessage(interaction.followUp({ content: 'Fast forwarded', fetchReply: true }), 1)
 	}
 
+	@ButtonComponent('ff_button')
+	async ff10(interaction: HandledInteraction) {
+		this.fastforward(10, interaction)
+	}
+
 	@Slash('rw', { description: 'Rewind the current song by 10 seconds' })
 	@Slash('rewind', { description: 'Rewind the current song by 10 seconds' })
-	@ButtonComponent('rw_button')
 	@Guard(isPlayingGuard)
-	async rewind(interaction: HandledInteraction) {
+	async rewind(
+		@SlashOption('duration', { required: false, description: 'Rewind the current song by this amount of seconds' })
+		duration: number,
+		interaction: HandledInteraction,
+	) {
 		const queue = distube.getQueue(interaction.guildId!)!
 		interaction.deferReply()
-		distube.seek(interaction.guildId!, queue.currentTime > 10 ? queue.currentTime - 10 : 0)
+		distube.seek(interaction.guildId!, queue.currentTime > duration ? queue.currentTime - duration : 0)
 		disappearingMessage(interaction.followUp({ content: 'Rewound', fetchReply: true }), 1)
+	}
+
+	@ButtonComponent('rw_button')
+	async rw10(interaction: HandledInteraction) {
+		this.rewind(10, interaction)
+	}
+
+	@Slash('r', { description: 'Repeat the queue' })
+	@Slash('repeat', { description: 'Repeat the queue' })
+	@Guard(isPlayingGuard)
+	async repeat(interaction: CommandInteraction) {
+		interaction.deferReply()
+		const queue = distube.getQueue(interaction.guildId!)!
+		queue.setRepeatMode(RepeatMode.QUEUE)
+
+		setGuildSettings(interaction.guildId!, (settings) => {
+			settings.repeat = RepeatMode.QUEUE
+		})
+
+		disappearingMessage(
+			interaction.followUp({
+				embeds: [simpleActionEmbed(`Repeat mode is now set to **Queue**`)],
+			}),
+		)
+	}
+
+	@Slash('r1', { description: 'Repeat the queue' })
+	@Slash('repeatOne', { description: 'Repeat the queue' })
+	@Guard(isPlayingGuard)
+	async repeatOne(interaction: CommandInteraction) {
+		interaction.deferReply()
+		const queue = distube.getQueue(interaction.guildId!)!
+		queue.setRepeatMode(RepeatMode.SONG)
+
+		setGuildSettings(interaction.guildId!, (settings) => {
+			settings.repeat = RepeatMode.SONG
+		})
+
+		disappearingMessage(
+			interaction.followUp({
+				embeds: [simpleActionEmbed(`Repeat mode is now set to **Song**`)],
+			}),
+		)
+	}
+
+	@Slash('nr', { description: "Don't repeat anything" })
+	@Slash('norepeat', { description: "Don't repeat anything" })
+	@Guard(isPlayingGuard)
+	async noRepeat(interaction: CommandInteraction) {
+		interaction.deferReply()
+		const queue = distube.getQueue(interaction.guildId!)!
+		queue.setRepeatMode(RepeatMode.DISABLED)
+
+		setGuildSettings(interaction.guildId!, (settings) => {
+			settings.repeat = RepeatMode.DISABLED
+		})
+
+		disappearingMessage(
+			interaction.followUp({
+				embeds: [simpleActionEmbed(`Repeat mode is now set to **Disabled**`)],
+			}),
+		)
 	}
 }

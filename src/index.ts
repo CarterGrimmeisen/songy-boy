@@ -2,7 +2,7 @@ import 'reflect-metadata'
 
 import { Intents } from 'discord.js'
 import { Client } from 'discordx'
-import { DisTube } from 'distube'
+import { DisTube, RepeatMode } from 'distube'
 import { config as parseConfig } from 'dotenv'
 import { exit } from 'process'
 import JSONdb from 'simple-json-db'
@@ -17,6 +17,7 @@ type Settings = {
 	autoplay: boolean
 	volume: number
 	filters: string[]
+	repeat: RepeatMode
 }
 
 export const db = new JSONdb('./settings.json', { asyncWrite: true })
@@ -28,6 +29,7 @@ export const getGuildSettings = async (id: string): Promise<Settings> => {
 			autoplay: false,
 			volume: 100,
 			filters: [],
+			repeat: RepeatMode.DISABLED,
 		}
 	}
 
@@ -42,6 +44,7 @@ export const setGuildSettings = async (id: string, callback: (guildSettings: Set
 			autoplay: false,
 			volume: 100,
 			filters: [],
+			repeat: RepeatMode.DISABLED,
 		}
 	}
 
