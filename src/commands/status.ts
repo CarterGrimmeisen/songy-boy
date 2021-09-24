@@ -3,12 +3,6 @@ import { Discord, Slash } from 'discordx'
 
 import { distube } from '..'
 
-const chunk = <T>(array: T[], chunk_size: number) =>
-	Array(Math.ceil(array.length / chunk_size))
-		.fill(null)
-		.map((_, index) => index * chunk_size)
-		.map((begin) => array.slice(begin, begin + chunk_size))
-
 @Discord()
 export class Status {
 	@Slash('ping', { description: 'Ping the bot' })
