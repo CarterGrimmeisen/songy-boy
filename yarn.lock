@@ -1069,9 +1069,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"distube@npm:beta":
-  version: 3.0.0-beta.38
-  resolution: "distube@npm:3.0.0-beta.38"
+"distube@npm:^3.0.0-beta.39":
+  version: 3.0.0-beta.39
+  resolution: "distube@npm:3.0.0-beta.39"
   dependencies:
     "@distube/youtube-dl": ^2.2.2
     "@distube/ytdl-core": ^4.9.3
@@ -1083,7 +1083,7 @@ __metadata:
     "@discordjs/opus": "*"
     "@discordjs/voice": ">=0.5.6"
     discord.js: ^12.5.0||^13.0.0-0||^13.1.0-0||^13.2.0-0
-  checksum: f6e002b5f1275b9f0ab51d159fd1d4a9046b90b9c455ede8306ec4d95368f5456584d83c8806df46530bec4d234fcd6d80d7697e8aa917f7c0f31a39d0d79c5e
+  checksum: 9bdf2f3a8df8c6213512ff86e2fe5542f81eab837bb68d1521a3ea325998b887894b525bfd65643281201cf559bc009feef994405e2d898f9da691663124d3c2
   languageName: node
   linkType: hard
 
@@ -3340,6 +3340,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"simple-json-db@npm:^1.2.3":
+  version: 1.2.3
+  resolution: "simple-json-db@npm:1.2.3"
+  checksum: e46cd12f4b37c07401444d67e98114100121e5ab51608e14ba8571c85eb45744215384ddf18d7d211b54b0f69b30a522da7702a6a823fe468875599f2a43f841
+  languageName: node
+  linkType: hard
+
 "slash@npm:^3.0.0":
   version: 3.0.0
   resolution: "slash@npm:3.0.0"
@@ -3398,7 +3405,7 @@ __metadata:
     "@typescript-eslint/parser": ^4.31.1
     discord.js: ^13.1.0
     discordx: ^5.9.3
-    distube: beta
+    distube: ^3.0.0-beta.39
     dotenv: ^10.0.0
     eslint: ^7.32.0
     eslint-config-prettier: ^8.3.0
@@ -3409,6 +3416,7 @@ __metadata:
     libsodium-wrappers: ^0.7.9
     prettier: ^2.4.1
     reflect-metadata: ^0.1.13
+    simple-json-db: ^1.2.3
     title-case: ^3.0.3
     tsc-watch: ^4.5.0
     typescript: ^4.4.3

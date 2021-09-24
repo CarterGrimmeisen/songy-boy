@@ -1,7 +1,8 @@
 {
     "name": "songy-boy",
     "scripts": {
-        "dev": "tsc-watch --noClear --onSuccess 'node build/index.js'"
+        "dev": "tsc-watch --noClear --onSuccess 'node build/index.js'",
+        "lint": "eslint"
     },
     "devDependencies": {
         "@types/dotenv": "^8.2.0",
@@ -22,11 +23,12 @@
         "@discordjs/voice": "^0.6.0",
         "discord.js": "^13.1.0",
         "discordx": "^5.9.3",
-        "distube": "beta",
+        "distube": "^3.0.0-beta.39",
         "dotenv": "^10.0.0",
         "ffmpeg-static": "^4.4.0",
         "libsodium-wrappers": "^0.7.9",
         "reflect-metadata": "^0.1.13",
+        "simple-json-db": "^1.2.3",
         "title-case": "^3.0.3"
     }
 }

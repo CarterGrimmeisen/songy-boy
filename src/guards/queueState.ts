@@ -21,7 +21,8 @@ export const isPausedGuard: GuardFunction<HandledInteraction> = async (interacti
 }
 
 export const canSkipGuard: GuardFunction<HandledInteraction> = async (interaction, _, next) => {
-    if ((distube.getQueue(interaction.guildId!)?.songs.length ?? 0) > 1) {
+    const queue = distube.getQueue(interaction.guildId!)
+    if ((queue?.songs.length ?? 0) > 1 || queue?.autoplay) {
         // || distube.getQueue(interaction.guildId!)?.autoplay) {
         return next()
     }

@@ -45,7 +45,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/parser", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:4.31.1"],
             ["discord.js", "npm:13.1.0"],
             ["discordx", "npm:5.9.3"],
-            ["distube", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:3.0.0-beta.38"],
+            ["distube", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:3.0.0-beta.39"],
             ["dotenv", "npm:10.0.0"],
             ["eslint", "npm:7.32.0"],
             ["eslint-config-prettier", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:8.3.0"],
@@ -56,6 +56,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["libsodium-wrappers", "npm:0.7.9"],
             ["prettier", "npm:2.4.1"],
             ["reflect-metadata", "npm:0.1.13"],
+            ["simple-json-db", "npm:1.2.3"],
             ["title-case", "npm:3.0.3"],
             ["tsc-watch", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:4.5.0"],
             ["typescript", "patch:typescript@npm%3A4.4.3#builtin<compat/typescript>::version=4.4.3&hash=8133ad"]
@@ -1356,17 +1357,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["distube", [
-        ["npm:3.0.0-beta.38", {
-          "packageLocation": "./.yarn/cache/distube-npm-3.0.0-beta.38-142e4f3b30-f6e002b5f1.zip/node_modules/distube/",
+        ["npm:3.0.0-beta.39", {
+          "packageLocation": "./.yarn/cache/distube-npm-3.0.0-beta.39-596e447466-9bdf2f3a8d.zip/node_modules/distube/",
           "packageDependencies": [
-            ["distube", "npm:3.0.0-beta.38"]
+            ["distube", "npm:3.0.0-beta.39"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:3.0.0-beta.38", {
-          "packageLocation": "./.yarn/$$virtual/distube-virtual-bbd7415a16/0/cache/distube-npm-3.0.0-beta.38-142e4f3b30-f6e002b5f1.zip/node_modules/distube/",
+        ["virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:3.0.0-beta.39", {
+          "packageLocation": "./.yarn/$$virtual/distube-virtual-7b8f4ec6b1/0/cache/distube-npm-3.0.0-beta.39-596e447466-9bdf2f3a8d.zip/node_modules/distube/",
           "packageDependencies": [
-            ["distube", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:3.0.0-beta.38"],
+            ["distube", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:3.0.0-beta.39"],
             ["@discordjs/opus", "npm:0.6.0"],
             ["@discordjs/voice", "npm:0.6.0"],
             ["@distube/youtube-dl", "npm:2.2.2"],
@@ -1377,7 +1378,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/discordjs__opus", null],
             ["@types/discordjs__voice", null],
             ["discord.js", "npm:13.1.0"],
-            ["prism-media", "virtual:bbd7415a16fb5e89e60904b2e79e60d3556063f8562ee25940b627c76cd8f11c0e3c91b83d3d485cccd3b866822384eddf8b3b935f3889c41b93313e5a7c4b07#https://github.com/distubejs/prism-media.git#commit=588daf2b7519d8f6df5560de3cbf52f707c322e0"],
+            ["prism-media", "virtual:7b8f4ec6b17b5c08c6aa6fb636e8162a8da3334ceb1252917604e544aa2d12ea5fe6535df94cd3d896dd609c9505959c65c82b692ca7d792f99230b9cdde695c#https://github.com/distubejs/prism-media.git#commit=588daf2b7519d8f6df5560de3cbf52f707c322e0"],
             ["tiny-typed-emitter", "npm:2.1.0"]
           ],
           "packagePeers": [
@@ -3595,10 +3596,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:bbd7415a16fb5e89e60904b2e79e60d3556063f8562ee25940b627c76cd8f11c0e3c91b83d3d485cccd3b866822384eddf8b3b935f3889c41b93313e5a7c4b07#https://github.com/distubejs/prism-media.git#commit=588daf2b7519d8f6df5560de3cbf52f707c322e0", {
-          "packageLocation": "./.yarn/$$virtual/prism-media-virtual-54e047eaa7/0/cache/prism-media-https-cf59c2bdd1-4140b8a860.zip/node_modules/prism-media/",
+        ["virtual:7b8f4ec6b17b5c08c6aa6fb636e8162a8da3334ceb1252917604e544aa2d12ea5fe6535df94cd3d896dd609c9505959c65c82b692ca7d792f99230b9cdde695c#https://github.com/distubejs/prism-media.git#commit=588daf2b7519d8f6df5560de3cbf52f707c322e0", {
+          "packageLocation": "./.yarn/$$virtual/prism-media-virtual-2ba1285059/0/cache/prism-media-https-cf59c2bdd1-4140b8a860.zip/node_modules/prism-media/",
           "packageDependencies": [
-            ["prism-media", "virtual:bbd7415a16fb5e89e60904b2e79e60d3556063f8562ee25940b627c76cd8f11c0e3c91b83d3d485cccd3b866822384eddf8b3b935f3889c41b93313e5a7c4b07#https://github.com/distubejs/prism-media.git#commit=588daf2b7519d8f6df5560de3cbf52f707c322e0"],
+            ["prism-media", "virtual:7b8f4ec6b17b5c08c6aa6fb636e8162a8da3334ceb1252917604e544aa2d12ea5fe6535df94cd3d896dd609c9505959c65c82b692ca7d792f99230b9cdde695c#https://github.com/distubejs/prism-media.git#commit=588daf2b7519d8f6df5560de3cbf52f707c322e0"],
             ["@discordjs/opus", "npm:0.6.0"],
             ["@types/discordjs__opus", null],
             ["@types/ffmpeg-static", null],
@@ -4003,6 +4004,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["simple-json-db", [
+        ["npm:1.2.3", {
+          "packageLocation": "./.yarn/cache/simple-json-db-npm-1.2.3-8fa09a494e-e46cd12f4b.zip/node_modules/simple-json-db/",
+          "packageDependencies": [
+            ["simple-json-db", "npm:1.2.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["slash", [
         ["npm:3.0.0", {
           "packageLocation": "./.yarn/cache/slash-npm-3.0.0-b87de2279a-fc3e8597d8.zip/node_modules/slash/",
@@ -4069,7 +4079,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/parser", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:4.31.1"],
             ["discord.js", "npm:13.1.0"],
             ["discordx", "npm:5.9.3"],
-            ["distube", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:3.0.0-beta.38"],
+            ["distube", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:3.0.0-beta.39"],
             ["dotenv", "npm:10.0.0"],
             ["eslint", "npm:7.32.0"],
             ["eslint-config-prettier", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:8.3.0"],
@@ -4080,6 +4090,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["libsodium-wrappers", "npm:0.7.9"],
             ["prettier", "npm:2.4.1"],
             ["reflect-metadata", "npm:0.1.13"],
+            ["simple-json-db", "npm:1.2.3"],
             ["title-case", "npm:3.0.3"],
             ["tsc-watch", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:4.5.0"],
             ["typescript", "patch:typescript@npm%3A4.4.3#builtin<compat/typescript>::version=4.4.3&hash=8133ad"]
