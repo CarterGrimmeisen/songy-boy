@@ -59,6 +59,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["simple-json-db", "npm:1.2.3"],
             ["title-case", "npm:3.0.3"],
             ["tsc-watch", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:4.5.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.4.3#builtin<compat/typescript>::version=4.4.3&hash=8133ad"]
           ],
           "linkType": "SOFT",
@@ -4093,6 +4094,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["simple-json-db", "npm:1.2.3"],
             ["title-case", "npm:3.0.3"],
             ["tsc-watch", "virtual:79da23e1a3d92c42d27322a0d81da66d93b2fe03d45eee476afdaafb96a83c94d1c2f9bf95274cca9237a298417736406d0727a9e8abd691cc3c03648f887da0#npm:4.5.0"],
+            ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.4.3#builtin<compat/typescript>::version=4.4.3&hash=8133ad"]
           ],
           "linkType": "SOFT",

@@ -29,6 +29,7 @@
         "libsodium-wrappers": "^0.7.9",
         "reflect-metadata": "^0.1.13",
         "simple-json-db": "^1.2.3",
-        "title-case": "^3.0.3"
+        "title-case": "^3.0.3",
+        "tslib": "^2.3.1"
     }
 }
