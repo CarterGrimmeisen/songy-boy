@@ -8,7 +8,7 @@ import { exit } from 'process'
 import JSONdb from 'simple-json-db'
 
 import { allFilters } from './controls/filterList'
-import { simpleActionEmbed } from './embeds/simpleAction'
+import { simpleActionMessage } from './embeds/simpleAction'
 
 export const { parsed: config, error } = parseConfig()
 
@@ -78,13 +78,13 @@ export const distube = new DisTube(client, {
 
 distube.on('error', (channel, error) => {
 	console.error(error)
-	channel.send({
-		embeds: [simpleActionEmbed(`⛔ ${error.message.replaceAll('You ', 'I ')}`)],
-	})
+	channel.send(simpleActionMessage(`⛔ ${error.message}`))
 })
 
 client.on('ready', () => {
 	console.log('>> Bot started')
+
+	client.user?.setActivity({ type: 'LISTENING', name: 'your tunes 🎵' })
 
 	// to create/update/delete discord application commands
 	client.initApplicationCommands()
@@ -96,8 +96,17 @@ client.on('interactionCreate', (interaction) => {
 
 client.login(config!.BOT_TOKEN)
 
-process.on('SIGINT', () => {
+process.on('SIGINT', async () => {
 	console.log('Caught interrupt signal')
+
+	await Promise.all(
+		Array.from(distube.queues.collection.values()).map((queue) => {
+			queue.textChannel?.send('🛑 Bot is shutting down for maintainence and will be back up as soon as possible.')
+			return queue.stop()
+		}),
+	)
+
+	await new Promise((res) => setTimeout(res, 1000))
 
 	client.destroy()
 	exit(0)

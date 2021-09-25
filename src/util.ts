@@ -18,6 +18,19 @@ export const getInteractionInfo = async (
 	return [member, member.voice.channel, interaction.channel as TextChannel]
 }
 
-export const disappearingMessage = async <T>(messagePromise: Promise<Message | T>, time = 5000) => {
+export const disappearingMessage = <T>(messagePromise: Promise<Message | T>, time = 2500) => {
 	setTimeout(async () => ((await messagePromise) as Message).delete(), time)
+}
+
+export const interactionWrapper = async (
+	interaction: HandledInteraction,
+	starting: string,
+	ending: string,
+	callback: () => Promise<unknown>,
+	duration = 2500,
+) => {
+	const replyPromise = interaction.reply(starting)
+	await callback()
+	await replyPromise
+	disappearingMessage(interaction.editReply(ending), duration)
 }

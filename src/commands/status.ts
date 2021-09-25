@@ -17,7 +17,12 @@ export class Status {
 		interaction.reply({
 			embeds: [
 				{
-					title: 'Next 10 Songs',
+					title:
+						queue.songs.length > 10
+							? 'Next 10 Songs'
+							: queue.songs.length > 0
+							? `Next ${queue.songs.length} Songs`
+							: 'Queue is empty',
 					fields: queue.songs.slice(1, 11).map((song) => ({
 						name: song.name!,
 						value: song.formattedDuration!,

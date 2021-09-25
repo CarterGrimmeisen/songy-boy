@@ -2,6 +2,7 @@
     "name": "songy-boy",
     "scripts": {
         "dev": "tsc-watch --noClear --onSuccess 'node build/index.js'",
+        "build": "NODE_ENV=PRODUCTION tsc",
         "lint": "eslint"
     },
     "devDependencies": {

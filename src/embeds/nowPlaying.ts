@@ -27,7 +27,7 @@ export const nowPlayingEmbed = (queue: Queue) => {
 				inline: true,
 			},
 			{
-				name: `Current Filter${queue.filters.length > 1 ? 's' : ''}`,
+				name: `Current Filter${queue.filters.length !== 1 ? 's' : ''}`,
 				value: queue.filters.length ? queue.filters.map(titleCase).join('\n') : 'None',
 				inline: true,
 			},
