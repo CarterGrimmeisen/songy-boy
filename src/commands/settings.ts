@@ -5,13 +5,13 @@ import { titleCase } from 'title-case'
 import { distube, setGuildSettings } from '..'
 import { allFilters } from '../controls/filterList'
 import { simpleActionMessage } from '../embeds/simpleAction'
-import { hasFiltersGuard, isPlayingGuard } from '../guards/queueState'
+import { hasFiltersGuard, hasQueueGuard } from '../guards/queueState'
 import { disappearingMessage, HandledInteraction, interactionWrapper } from '../util'
 
 @Discord()
 export class Settings {
 	@Slash('filter', { description: 'Add an audio filter' })
-	@Guard(isPlayingGuard)
+	@Guard(hasQueueGuard)
 	async filter(
 		@SlashOption('filter', { required: true, description: 'The filter to add' })
 		@SlashChoice(Object.fromEntries(Object.entries(allFilters).map(([key]) => [titleCase(key), key])))
@@ -24,6 +24,7 @@ export class Settings {
 		try {
 			filters = queue.setFilter(filter)
 		} catch (error) {
+			disappearingMessage(interaction.fetchReply(), 0)
 			return error instanceof Error && interaction.followUp(simpleActionMessage(`⛔ ${error.message}`))
 		}
 
@@ -43,13 +44,14 @@ export class Settings {
 	}
 
 	@Slash('clearfilters', { description: 'Remove an audio filter' })
-	@Guard(isPlayingGuard, hasFiltersGuard)
+	@Guard(hasQueueGuard, hasFiltersGuard)
 	async clearFilters(interaction: CommandInteraction) {
 		return interactionWrapper(interaction, 'Clearing filters...', 'All filters removed', async () => {
 			const queue = distube.getQueue(interaction.guildId!)!
 			try {
 				queue.setFilter(false)
 			} catch (error) {
+				disappearingMessage(interaction.fetchReply(), 0)
 				return (
 					error instanceof Error &&
 					interaction.followUp(simpleActionMessage(`⛔ ${error.message.replaceAll('You ', 'I ')}`))
@@ -63,7 +65,7 @@ export class Settings {
 	}
 
 	@Slash('volume', { description: 'Change the volume' })
-	@Guard(isPlayingGuard)
+	@Guard(hasQueueGuard)
 	async volume(
 		@SlashOption('volume')
 		volume: number,
@@ -71,6 +73,7 @@ export class Settings {
 	) {
 		const replyPromise = interaction.reply('Setting volume...')
 		if (volume < 0 || volume > 150) {
+			disappearingMessage(interaction.fetchReply(), 0)
 			return interaction.followUp({ content: 'Volume must be between 0 and 150', ephemeral: true })
 		}
 
@@ -85,18 +88,18 @@ export class Settings {
 	}
 
 	@ButtonComponent('volume_up_button')
-	@Guard(isPlayingGuard)
+	@Guard(hasQueueGuard)
 	async volumeUp(interaction: ButtonInteraction) {
 		const volume = distube.getQueue(interaction.guildId!)!.volume
-		const newVolume = volume < 140 ? volume + 10 : 150
+		const newVolume = volume < 140 ? Math.floor(volume + 10) : 150
 		this.volume(newVolume, interaction)
 	}
 
 	@ButtonComponent('volume_down_button')
-	@Guard(isPlayingGuard)
+	@Guard(hasQueueGuard)
 	async volumeDown(interaction: ButtonInteraction) {
 		const volume = distube.getQueue(interaction.guildId!)!.volume
-		const newVolume = volume > 10 ? volume - 10 : 0
+		const newVolume = volume > 10 ? Math.floor(volume - 10) : 0
 		this.volume(newVolume, interaction)
 	}
 }

@@ -30,7 +30,11 @@ export const interactionWrapper = async (
 	duration = 2500,
 ) => {
 	const replyPromise = interaction.reply(starting)
-	await callback()
+	const returnedValue = await callback()
 	await replyPromise
-	disappearingMessage(interaction.editReply(ending), duration)
+	if (returnedValue === undefined) {
+		disappearingMessage(interaction.fetchReply(), 0)
+	} else {
+		disappearingMessage(interaction.editReply(ending), duration)
+	}
 }

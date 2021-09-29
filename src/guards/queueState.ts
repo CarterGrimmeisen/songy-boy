@@ -4,8 +4,8 @@ import { GuardFunction } from 'discordx'
 import { distube } from '..'
 import { HandledInteraction } from '../util'
 
-export const isPlayingGuard: GuardFunction<HandledInteraction> = async (interaction, _, next) => {
-	if (distube.getQueue(interaction.guildId!)?.playing) {
+export const hasQueueGuard: GuardFunction<HandledInteraction> = async (interaction, _, next) => {
+	if (distube.getQueue(interaction.guildId!)) {
 		return next()
 	}
 

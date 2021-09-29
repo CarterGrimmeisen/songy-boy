@@ -7,7 +7,7 @@ import { getMediaButtonList, getMoreButtonList } from '../controls/mediaControls
 import { nowPlayingEmbed } from '../embeds/nowPlaying'
 import { queueFinishedEmbed } from '../embeds/queueFinished'
 import { simpleActionMessage } from '../embeds/simpleAction'
-import { canSkipGuard, isPausedGuard, isPlayingGuard } from '../guards/queueState'
+import { canSkipGuard, isPausedGuard, hasQueueGuard } from '../guards/queueState'
 import { voiceChannelGuards } from '../guards/voiceChannel'
 import { disappearingMessage, getInteractionInfo, HandledInteraction, interactionWrapper } from '../util'
 
@@ -69,10 +69,12 @@ export class Music {
 			distube.once('addSong', (_, song) => {
 				this.nowPlaying(interaction)
 
-				interaction.editReply(
-					simpleActionMessage(`${song.name} has been added to the queue.`, {
-						thumbnail: song.thumbnail,
-					}),
+				disappearingMessage(
+					interaction.editReply(
+						simpleActionMessage(`${song.name} has been added to the queue.`, {
+							thumbnail: song.thumbnail,
+						}),
+					),
 				)
 			})
 
@@ -117,7 +119,7 @@ export class Music {
 
 	@Slash('pause', { description: 'Pause the current song.' })
 	@ButtonComponent('pause_button')
-	@Guard(isPlayingGuard)
+	@Guard(hasQueueGuard)
 	async pause(interaction: HandledInteraction) {
 		return interactionWrapper(interaction, 'Pausing...', 'Song paused', async () => {
 			distube.pause(interaction.guildId!)
@@ -137,7 +139,7 @@ export class Music {
 
 	@Slash('skip', { description: 'Skip the current song.' })
 	@ButtonComponent('skip_button')
-	@Guard(isPlayingGuard, canSkipGuard)
+	@Guard(hasQueueGuard, canSkipGuard)
 	async skip(interaction: HandledInteraction) {
 		return interactionWrapper(interaction, 'Skipping song...', 'Song skipped', async () => {
 			distube.skip(interaction.guildId!)
@@ -146,7 +148,7 @@ export class Music {
 
 	@Slash('stop', { description: 'Stop the music.' })
 	@ButtonComponent('stop_button')
-	@Guard(isPlayingGuard)
+	@Guard(hasQueueGuard)
 	async stop(interaction: HandledInteraction) {
 		return interactionWrapper(interaction, 'Stopping music...', 'Music stopped', async () => {
 			distube.stop(interaction.guildId!)
@@ -155,7 +157,7 @@ export class Music {
 
 	@Slash('autoplay', { description: 'Toggle autoplay' })
 	@ButtonComponent('autoplay_button')
-	@Guard(isPlayingGuard)
+	@Guard(hasQueueGuard)
 	async autoplay(interaction: HandledInteraction) {
 		const replyPromise = interaction.reply('Toggling autoplay...')
 
@@ -173,7 +175,7 @@ export class Music {
 	}
 
 	@Slash('shuffle', { description: 'Shuffle the queue' })
-	@Guard(isPlayingGuard)
+	@Guard(hasQueueGuard)
 	async shuffle(interaction: CommandInteraction) {
 		return interactionWrapper(interaction, 'Shuffling queue...', 'Queue shuffled', async () => {
 			distube.shuffle(interaction.guildId!)
@@ -181,7 +183,7 @@ export class Music {
 	}
 
 	@Slash('forward', { description: 'Fast forward the current song by 10 seconds' })
-	@Guard(isPlayingGuard)
+	@Guard(hasQueueGuard)
 	async fastforward(
 		@SlashOption('duration', { description: 'Fast forward the current song by this amount of seconds' })
 		duration: number,
@@ -209,7 +211,7 @@ export class Music {
 	}
 
 	@Slash('rewind', { description: 'Rewind the current song by 10 seconds' })
-	@Guard(isPlayingGuard)
+	@Guard(hasQueueGuard)
 	async rewind(
 		@SlashOption('duration', { description: 'Rewind the current song by this amount of seconds' })
 		duration: number,
@@ -232,7 +234,7 @@ export class Music {
 	}
 
 	@ButtonComponent('more_button')
-	@Guard(isPlayingGuard)
+	@Guard(hasQueueGuard)
 	async more(interaction: ButtonInteraction) {
 		await interaction.reply('Loading more controls...')
 		await this.moreSettings(interaction, false)
@@ -240,7 +242,7 @@ export class Music {
 	}
 
 	@ButtonComponent('less_button')
-	@Guard(isPlayingGuard)
+	@Guard(hasQueueGuard)
 	async less(interaction: ButtonInteraction) {
 		const messsagePromise = interaction.reply({ content: 'Hiding More Controls...', fetchReply: true })
 		// TODO: Fix sometimes interaction failing
@@ -260,7 +262,7 @@ export class Music {
 
 	@Slash('repeat', { description: 'Repeat the queue' })
 	@ButtonComponent('repeat_none_to_queue_button')
-	@Guard(isPlayingGuard)
+	@Guard(hasQueueGuard)
 	async repeatNoneToQueue(interaction: ButtonInteraction) {
 		return interactionWrapper(
 			interaction,
@@ -280,7 +282,7 @@ export class Music {
 
 	@Slash('repeatOne', { description: 'Repeat the queue' })
 	@ButtonComponent('repeat_queue_to_one_button')
-	@Guard(isPlayingGuard)
+	@Guard(hasQueueGuard)
 	async repeatQueueToOne(interaction: ButtonInteraction) {
 		return interactionWrapper(
 			interaction,
@@ -300,7 +302,7 @@ export class Music {
 
 	@Slash('norepeat', { description: "Don't repeat anything" })
 	@ButtonComponent('repeat_one_to_none_button')
-	@Guard(isPlayingGuard)
+	@Guard(hasQueueGuard)
 	async repeatOneToNone(interaction: ButtonInteraction) {
 		return interactionWrapper(
 			interaction,
