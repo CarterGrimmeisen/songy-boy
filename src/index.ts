@@ -56,8 +56,8 @@ export const setGuildSettings = async (id: string, callback: (guildSettings: Set
 if (error) exit(1)
 
 export const client = new Client({
-	botId: '888662682197184525',
-	botGuilds: ['888607400695836702'],
+	botId: config!.BOT_ID,
+	botGuilds: JSON.parse(config!.BOT_GUILDS),
 	classes: [
 		// glob string to load the classes. If you compile your bot, the file extension will be .js
 		`${__dirname}/commands/*.{js,ts}`,
