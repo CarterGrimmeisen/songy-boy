@@ -280,7 +280,7 @@ export class Music {
 		)
 	}
 
-	@Slash('repeatOne', { description: 'Repeat the queue' })
+	@Slash('repeatone', { description: 'Repeat the queue' })
 	@ButtonComponent('repeat_queue_to_one_button')
 	@Guard(hasQueueGuard)
 	async repeatQueueToOne(interaction: ButtonInteraction) {
